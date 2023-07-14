@@ -1,11 +1,11 @@
 {
-    "name": "stephane888/stripe",
+    "name": "habeuk/stripe",
     "description": "module permettant de faciliter l'integration de stripe",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Stephane888\\Stripe\\": "src/"
+            "Habeuk\\Stripe\\": "src/"
         }
     },
     "authors": [
