@@ -1,0 +1,21 @@
+{
+    "name": "stephane888/stripe",
+    "description": "module permettant de faciliter l'integration de stripe",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Stephane888\\Stripe\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kouwa stephane",
+            "email": "kksasteph888@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+    	"stripe/stripe-php": "^7.25"
+    }
+}
