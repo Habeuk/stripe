@@ -4,6 +4,7 @@ namespace Habeuk\Stripe;
 
 use Habeuk\Stripe\Ressouces\Helpers;
 use Stripe\StripeClient;
+use Stripe\Stripe as StripeLibrary;
 
 /**
  * --
@@ -27,6 +28,12 @@ class GateWayBase implements GateWayInterface {
   private $secret_key = null;
   
   /**
+   *
+   * @var string
+   */
+  public $public_key = null;
+  
+  /**
    * Type de methode de payements
    *
    * @var array
@@ -48,17 +55,31 @@ class GateWayBase implements GateWayInterface {
    */
   protected $stripeApi;
   
-  function __construct(string $secret_key = null) {
+  function __construct(string $secret_key = null, string $public_key = null) {
     if ($secret_key) {
-      $this->validKey($secret_key);
-      $this->secret_key = $secret_key;
+      $this->setSecretKey($secret_key);
       $this->stripeApi = new StripeClient($this->secret_key);
     }
+    $this->public_key = $public_key;
   }
   
   function setSecretKey(string $secret_key) {
     $this->validKey($secret_key);
     $this->secret_key = $secret_key;
+    StripeLibrary::setApiKey($this->secret_key);
+  }
+  
+  function getSecretKey() {
+    return $this->secret_key;
+  }
+  
+  public function getPaymentMethodTypes() {
+    return $this->payment_method_types;
+  }
+  
+  public function setPaymentMethodTypes(array $payments) {
+    // throw si $payments est vide.
+    $this->payment_method_types = $payments;
   }
   
   /**
@@ -68,9 +89,17 @@ class GateWayBase implements GateWayInterface {
    */
   protected function init() {
     if (!$this->stripeApi) {
-      $this->validKey($this->secret_key);
       $this->stripeApi = new StripeClient($this->secret_key);
     }
+    return $this->stripeApi;
+  }
+  
+  /**
+   *
+   * @return \Stripe\StripeClient
+   */
+  public function getInstance() {
+    $this->init();
     return $this->stripeApi;
   }
   
